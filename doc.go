@@ -5,7 +5,6 @@ import (
 	"fmt"
 	"io"
 	"io/ioutil"
-	"log"
 	"os"
 	"os/exec"
 	"strings"
@@ -27,7 +26,7 @@ func ConvertDoc(r io.Reader) (string, map[string]string, error) {
 		metaStr, err := exec.Command("wvSummary", f.Name()).Output()
 		if err != nil {
 			// TODO: Remove this.
-			log.Println("wvSummary:", err)
+			logger.Println("wvSummary:", err)
 		}
 
 		// Parse meta output
@@ -60,7 +59,7 @@ func ConvertDoc(r io.Reader) (string, map[string]string, error) {
 		outputFile, err := ioutil.TempFile("/tmp", "sajari-convert-")
 		if err != nil {
 			// TODO: Remove this.
-			log.Println("TempFile Out:", err)
+			logger.Println("TempFile Out:", err)
 			return
 		}
 		defer os.Remove(outputFile.Name())
@@ -68,14 +67,14 @@ func ConvertDoc(r io.Reader) (string, map[string]string, error) {
 		err = exec.Command("wvText", f.Name(), outputFile.Name()).Run()
 		if err != nil {
 			// TODO: Remove this.
-			log.Println("wvText:", err)
+			logger.Println("wvText:", err)
 		}
 
 		var buf bytes.Buffer
 		_, err = buf.ReadFrom(outputFile)
 		if err != nil {
 			// TODO: Remove this.
-			log.Println("wvText:", err)
+			logger.Println("wvText:", err)
 		}
 
 		bc <- buf.String()

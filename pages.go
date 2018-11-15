@@ -52,7 +52,7 @@ func ConvertPages(r io.Reader) (string, map[string]string, error) {
 			archiveInfoData, err := ioutil.ReadAll(io.LimitReader(bReader, archiveLength))
 			archiveInfo := &TSP.ArchiveInfo{}
 			err = proto.Unmarshal(archiveInfoData, archiveInfo)
-			fmt.Println("archiveInfo:", archiveInfo, err)
+			logger.Println("archiveInfo:", archiveInfo, err)
 		}
 	}
 
